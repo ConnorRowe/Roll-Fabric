@@ -4,9 +4,9 @@
   "version": "${version}",
 
   "name": "Roll",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Lets you roll a virtual D100!",
   "authors": [
-    "Me!"
+    "ConnorRowe"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.roll.RollKt::init"
+      "net.fabricmc.roll.Roll"
     ]
   },
   "depends": {
