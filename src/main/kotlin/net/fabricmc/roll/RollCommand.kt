@@ -4,19 +4,27 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
+import net.fabricmc.roll.config.RollConfig
 import net.minecraft.network.MessageType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.LiteralText
+import net.minecraft.text.TranslatableText
 import kotlin.random.Random
 
 object RollCommand : Command<Any?> {
+
+    lateinit var config: RollConfig
+
     override fun run(context: CommandContext<Any?>?): Int {
         return 0
     }
 
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource?>) {
+    fun register(dispatcher: CommandDispatcher<ServerCommandSource?>, config: RollConfig) {
+
+        this.config = config
+
         // Fast roll 0 - 100
         dispatcher.register(CommandManager.literal("roll").executes(this::roll))
 
@@ -60,11 +68,21 @@ object RollCommand : Command<Any?> {
             val serverCmdSrc: ServerCommandSource = ctx.source as ServerCommandSource
             // Gets player
             val player: ServerPlayerEntity = serverCmdSrc.entity as ServerPlayerEntity
-            // Rolls the dice
-            val rollString =
-                Random.nextInt(min, max + 1).toString() + "  ~  (" + min.toString() + " - " + max.toString() + ")"
-            // Builds the message
-            val msg = LiteralText(player.displayName.asString() + " rolls " + rollString)
+            // Rolls the dice & builds the message
+            val msg = LiteralText(
+                TranslatableText(
+                    "menu.roll.roll_msg",
+                    config.playerFormat,
+                    player.displayName,
+                    config.baseFormat,
+                    config.rollNumberFormat,
+                    Random.nextInt(min, max + 1),
+                    config.baseFormat,
+                    config.rollRangeFormat,
+                    min,
+                    max
+                ).string
+            )
             // Gets iterator for all players
             val playerIter = serverCmdSrc.minecraftServer.playerManager.playerList.iterator()
             // Sends the message to everyone
@@ -72,6 +90,6 @@ object RollCommand : Command<Any?> {
                 p.sendMessage(msg, MessageType.CHAT, player.uuid)
             }
         }
-        return 0
+        return 1
     }
 }
