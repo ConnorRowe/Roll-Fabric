@@ -25,17 +25,17 @@ object RollCommand : Command<Any?> {
 
         this.config = config
 
-        // Fast roll 0 - 100
+        // Fast roll 1 - 100
         dispatcher.register(CommandManager.literal("roll").executes(this::roll))
 
-        // Roll 0 - max var
+        // Roll 1 - max var
         dispatcher.register(
             CommandManager.literal("roll").then(
                 CommandManager.argument("max", IntegerArgumentType.integer())
                     .executes { ctx: CommandContext<ServerCommandSource?> ->
                         rollRange(
                             ctx,
-                            0,
+                            1,
                             IntegerArgumentType.getInteger(ctx, "max")
                         )
                     })
@@ -59,7 +59,7 @@ object RollCommand : Command<Any?> {
     }
 
     private fun roll(ctx: CommandContext<ServerCommandSource?>): Int {
-        return rollRange(ctx, 0, 100)
+        return rollRange(ctx, 1, 100)
     }
 
     private fun rollRange(ctx: CommandContext<ServerCommandSource?>, min: Int, max: Int): Int {
