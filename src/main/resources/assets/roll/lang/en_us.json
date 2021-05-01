@@ -1,3 +1,5 @@
 {
-  "menu.roll.roll_msg": "%s%s %srolls %s%d %s~ %s(%d - %d)"
+  "menu.roll.roll_msg_rolls": "%s rolls %s",
+  "menu.roll.roll_msg_num": "%d %s",
+  "menu.roll.roll_msg_range": "~ (%d - %d)"
 }

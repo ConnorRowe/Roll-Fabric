@@ -10,7 +10,10 @@ import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.LiteralText
+import net.minecraft.text.Style
+import net.minecraft.text.TextColor
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.Formatting
 import kotlin.random.Random
 
 object RollCommand : Command<Any?> {
@@ -69,18 +72,12 @@ object RollCommand : Command<Any?> {
             // Gets player
             val player: ServerPlayerEntity = serverCmdSrc.entity as ServerPlayerEntity
             // Rolls the dice & builds the message
-            val msg = TranslatableText(
-                    "menu.roll.roll_msg",
-                    config.playerFormat,
-                    player.displayName,
-                    config.baseFormat,
-                    config.rollNumberFormat,
-                    Random.nextInt(min, max + 1),
-                    config.baseFormat,
-                    config.rollRangeFormat,
-                    min,
-                    max
-                )
+            val msg = TranslatableText("menu.roll.roll_msg_rolls",
+                player.displayName.shallowCopy().setStyle(Style.EMPTY.withColor(TextColor.parse(config.player_rgb)).withBold(config.player_bold).withItalic(config.player_italic)),
+                TranslatableText("menu.roll.roll_msg_num", Random.nextInt(min, max + 1),
+                TranslatableText("menu.roll.roll_msg_range", min, max).setStyle(Style.EMPTY.withColor(TextColor.parse(config.range_rgb)).withBold(config.range_bold).withItalic(config.range_italic)))
+                .setStyle(Style.EMPTY.withColor(TextColor.parse(config.roll_num_rgb)).withBold(config.roll_num_bold).withItalic(config.roll_num_italic)))
+                .setStyle(Style.EMPTY.withColor(TextColor.parse(config.rolls_rgb)).withBold(config.rolls_bold).withItalic(config.rolls_italic))
 
             // Gets iterator for all players
             val playerIter = serverCmdSrc.minecraftServer.playerManager.playerList.iterator()
