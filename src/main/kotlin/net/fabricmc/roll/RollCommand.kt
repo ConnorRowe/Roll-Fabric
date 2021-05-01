@@ -69,8 +69,7 @@ object RollCommand : Command<Any?> {
             // Gets player
             val player: ServerPlayerEntity = serverCmdSrc.entity as ServerPlayerEntity
             // Rolls the dice & builds the message
-            val msg = LiteralText(
-                TranslatableText(
+            val msg = TranslatableText(
                     "menu.roll.roll_msg",
                     config.playerFormat,
                     player.displayName,
@@ -81,8 +80,8 @@ object RollCommand : Command<Any?> {
                     config.rollRangeFormat,
                     min,
                     max
-                ).string
-            )
+                )
+
             // Gets iterator for all players
             val playerIter = serverCmdSrc.minecraftServer.playerManager.playerList.iterator()
             // Sends the message to everyone

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "roll",
-  "version": "1.0.1",
+  "version": "1.0.2",
 
   "name": "Roll",
   "description": "Lets you roll a virtual D100!",
