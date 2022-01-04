@@ -9,11 +9,9 @@ import net.minecraft.network.MessageType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Style
 import net.minecraft.text.TextColor
 import net.minecraft.text.TranslatableText
-import net.minecraft.util.Formatting
 import kotlin.random.Random
 
 object RollCommand : Command<Any?> {
@@ -80,9 +78,10 @@ object RollCommand : Command<Any?> {
                 .setStyle(Style.EMPTY.withColor(TextColor.parse(config.rolls_rgb)).withBold(config.rolls_bold).withItalic(config.rolls_italic))
 
             // Gets iterator for all players
-            val playerIter = serverCmdSrc.minecraftServer.playerManager.playerList.iterator()
+            val playerIterator = serverCmdSrc.server.playerManager.playerList.iterator()
+
             // Sends the message to everyone
-            for (p in playerIter) {
+            for (p in playerIterator) {
                 p.sendMessage(msg, MessageType.CHAT, player.uuid)
             }
         }
