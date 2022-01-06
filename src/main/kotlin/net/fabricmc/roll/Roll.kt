@@ -20,7 +20,7 @@ class Roll : ModInitializer {
     ) { definition: Config?, configClass: Class<RollConfig?>? -> GsonConfigSerializer(definition, configClass) }.config
 
     override fun onInitialize() {
-        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher: CommandDispatcher<ServerCommandSource?>, dedicated: Boolean ->
+        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher: CommandDispatcher<ServerCommandSource?>, _: Boolean ->
             RollCommand.register(dispatcher, config)
         })
     }
